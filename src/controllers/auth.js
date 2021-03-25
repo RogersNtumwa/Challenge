@@ -16,7 +16,7 @@ exports.Register = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { name, email, password } = req.body;
+  const { firstName,lastName, email, password,role } = req.body;
   let user = await User.findOne({ email });
   if (user) {
     return res.status(400).json({ errors: [{ msg: "User already exists" }] });
@@ -26,6 +26,7 @@ exports.Register = async (req, res, next) => {
     lastName,
     email,
     password,
+    role
   });
     res.json(user);
 };
@@ -72,6 +73,33 @@ exports.logIn = asyncHandler(async (req, res, next) => {
     }
   );
 });
+
+// @desc     Update user details
+// @route    Get/api/user/:id
+// @access   private to the owner
+exports.updateUser = asyncHandler(async(req, res, next)=>{
+  let user = await User.findById(req.user.id).select("-password");
+  if(!user){
+    return res
+      .status(401)
+      .json({ errors: [{ msg: "Invalid user" }] });
+  }
+   else {
+    user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+    res.json({
+      status: "Success",
+      data: {
+        user,
+      },
+    });
+  }
+
+
+})
 
 // @desc     Get Currently logged in user
 // @route    Get/api/auth/user

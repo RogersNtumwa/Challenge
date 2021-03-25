@@ -41,6 +41,7 @@ app.use(hpp());
 app.use(cors());
 
 // access to environment variables
+// MONGO_URI="mongodb+srv://Rogers:roger123@sneekers.iiuk7.mongodb.net/Amazonia?retryWrites=true&w=majority"
 dotenv.config({ path: "./src/config/config.env" });
 
 // serving static files
@@ -52,7 +53,7 @@ dbconnect();
 
 
 // api routes
-app.use("/api/v1/auth", users)
+app.use("/api/v1/user", users)
 
 // Error handling
 app.all("*", (req, res, next) => {

@@ -5,9 +5,10 @@ const {
   Register,
   logIn,
   getCurrentUser,
+  updateUser,
   
 } = require("../controllers/auth");
-const { protect, authourize } = require("../middleware/authourise");
+const { protect } = require("../middleware/authourise");
 
 router
   .route("/")
@@ -30,6 +31,7 @@ router
     ],
     Register
   );
-router.route("/user").get(protect, getCurrentUser);
+router.route("/loggedin").get(protect, getCurrentUser);
+router.route("/:id").put(protect,updateUser)
 
 module.exports = router;
