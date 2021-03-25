@@ -28,7 +28,7 @@ exports.Register = async (req, res, next) => {
     password,
     role
   });
-    res.json(user);
+    res.status(201).json(user);
 };
 // @desc     login user
 // @route    Get/api/users
@@ -38,7 +38,7 @@ exports.logIn = asyncHandler(async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const {firstName, lastName, email, password } = req.body;
+  const { email, password } = req.body;
 
 //   checking if user email is valid
   const user = await User.findOne({ email });
@@ -98,11 +98,10 @@ exports.updateUser = asyncHandler(async(req, res, next)=>{
     });
   }
 
-
 })
 
 // @desc     Get Currently logged in user
-// @route    Get/api/auth/user
+// @route    Get/api/auth/loggedin
 // @access   private
 exports.getCurrentUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("-password");

@@ -6,6 +6,7 @@ const path = require("path");
 
 const appError = require("./src/utils/appError");
 const users = require("./src/routes/auth");
+const customerTickets = require("./src/routes/supportTicket")
 
 
 // security packages
@@ -50,10 +51,9 @@ app.use(express.static(path.join(__dirname, "src/public")));
 // connect to Database
 dbconnect();
 
-
-
 // api routes
 app.use("/api/v1/user", users)
+app.use("/api/v1/tickets", customerTickets)
 
 // Error handling
 app.all("*", (req, res, next) => {
